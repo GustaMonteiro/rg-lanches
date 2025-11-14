@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio Digital - RG Lanches</title>
+    <!-- Carrega o Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carrega a fonte Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Ícones (para o ícone do WhatsApp) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Define a fonte Inter como padrão */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilo para a barra de rolagem do modal (opcional) */
+        #cart-items::-webkit-scrollbar {
+            width: 6px;
+        }
+        #cart-items::-webkit-scrollbar-thumb {
+            background-color: #f59e0b; /* Amarelo/Laranja do tema */
+            border-radius: 10px;
+        }
+        #cart-items::-webkit-scrollbar-track {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Cabeçalho -->
+    <header class="bg-white shadow-md p-6 text-center sticky top-0 z-30">
+        <h1 class="text-3xl font-bold text-yellow-600">RG Lanches</h1>
+        <p class="text-lg text-gray-600 mt-1">Confira nosso cardápio e faça seu pedido!</p>
+    </header>
+
+    <!-- Container Principal do Menu -->
+    <main class="max-w-4xl mx-auto p-4 pb-24"> <!-- pb-24 para dar espaço ao footer fixo -->
+        
+        <!-- Container onde os produtos serão renderizados -->
+        <div id="menu-container" class="space-y-8">
+            <!-- As categorias e produtos serão injetados aqui pelo JavaScript -->
+        </div>
+
+    </main>
+
+    <!-- Footer Fixo do Carrinho -->
+    <footer id="cart-footer" class="fixed bottom-0 left-0 right-0 bg-green-600 text-white p-4 shadow-lg-top flex justify-between items-center transition-transform duration-300 translate-y-full">
+        <div>
+            <span class="font-bold">Seu Pedido</span>
+            (<span id="cart-count">0</span> itens)
+        </div>
+        <button id="open-cart-btn" class="bg-white text-green-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-100 transition duration-300">
+            Ver Pedido
+        </button>
+    </footer>
+
+    <!-- Modal do Carrinho (oculto por padrão) -->
+    <div id="cart-modal-container" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden">
+        <div id="cart-modal" class="fixed bottom-0 left-0 right-0 md:max-w-2xl md:mx-auto md:bottom-auto md:top-1/4 bg-white rounded-t-lg md:rounded-lg shadow-xl p-6 z-50 transform translate-y-full transition-transform duration-300 w-full">
+            
+            <!-- Header do Modal -->
+            <div class="flex justify-between items-center border-b pb-4 mb-4">
+                <h2 class="text-2xl font-bold">Seu Pedido</h2>
+                <button id="close-cart-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            </div>
+
+            <!-- Itens do Carrinho -->
+            <div id="cart-items-wrapper" class="my-4">
+                <div id="cart-items" class="max-h-[40vh] overflow-y-auto space-y-4">
+                    <!-- Itens do carrinho serão injetados aqui -->
+                    <p id="cart-empty-msg" class="text-gray-500 text-center">Seu carrinho está vazio.</p>
+                </div>
+            </div>
+
+            <!-- Total -->
+            <div class="border-t pt-4">
+                <div class="flex justify-between items-center text-2xl font-bold mb-4">
+                    <span>Total:</span>
+                    <span id="cart-total">R$ 0,00</span>
+                </div>
+            </div>
+
+            <!-- Formulário do Cliente -->
+            <div class="space-y-4">
+                <div>
+                    <label for="customer-name" class="block text-sm font-bold text-gray-700 mb-1">Seu Nome</label>
+                    <input type="text" id="customer-name" class="w-full border border-gray-300 p-2 rounded-lg" placeholder="Digite seu nome">
+                </div>
+                <!-- <div>
+                    <label for="customer-address" class="block text-sm font-bold text-gray-700 mb-1">Seu Endereço (ou local de retirada)</label>
+                    <input type="text" id="customer-address" class="w-full border border-gray-300 p-2 rounded-lg" placeholder="Ex: Rua, Número, Bairro ou 'Vou retirar'">
+                </div> -->
+            </div>
+            
+            <!-- Mensagem de Erro -->
+            <div id="error-message" class="text-red-500 text-sm mt-4 text-center hidden">
+                Por favor, preencha seu nome.
+            </div>
+
+            <!-- Botão de Enviar Pedido -->
+            <button id="send-order-btn" class="w-full bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-600 transition duration-300 flex items-center justify-center space-x-2 mt-6">
+                <i class="fab fa-whatsapp"></i>
+                <span>Enviar Pedido pelo WhatsApp</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Opções (oculto por padrão) -->
+    <div id="options-modal-container" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4">
+        <div id="options-modal" class="bg-white rounded-lg shadow-xl p-6 z-50 w-full md:max-w-md max-h-[90vh] flex flex-col">
+            
+            <!-- Header do Modal de Opções -->
+            <div class="flex justify-between items-center border-b pb-4 mb-4">
+                <h2 id="options-modal-title" class="text-2xl font-bold">Personalize seu item</h2>
+                <button id="options-modal-close-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            </div>
+
+            <!-- Corpo do Modal de Opções -->
+            <div class="flex-1 overflow-y-auto">
+                <p class="text-lg">Item: <span id="options-modal-item-name" class="font-bold"></span></p>
+                <p class="text-md">Preço base: <span id="options-modal-base-price" class="font-bold"></span></p>
+                
+                <h3 class="text-lg font-semibold mt-4 mb-2">Escolha os adicionais:</h3>
+                <div id="options-modal-list" class="space-y-2">
+                    <!-- Opções (checkboxes) serão injetadas aqui -->
+                </div>
+
+                <div class="mt-4">
+                    <label for="options-modal-observation" class="block text-sm font-bold text-gray-700 mb-1">Observações</label>
+                    <textarea id="options-modal-observation" class="w-full border border-gray-300 p-2 rounded-lg" rows="2" placeholder="Ex: Sem cebola, ponto da carne, etc."></textarea>
+                </div>
+            </div>
+
+            <!-- Footer do Modal de Opções -->
+            <div class="border-t pt-4 mt-4">
+                <div class="flex justify-between items-center text-xl font-bold mb-4">
+                    <span>Total do Item:</span>
+                    <span id="options-modal-total">R$ 0,00</span>
+                </div>
+                <button id="options-modal-confirm-btn" class="w-full bg-yellow-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-yellow-600 transition duration-300">
+                    Adicionar ao Carrinho
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+    // ------------------------------------------------------------------
+    // 1. CONFIGURAÇÕES - EDITE ESTA PARTE
+    // ------------------------------------------------------------------
+
+    // Coloque aqui o número de WhatsApp do seu carrinho (somente números, com código do país)
+    // Exemplo: 5585912345678 (para +55 85 91234-5678)
+    const TRUCK_PHONE_NUMBER = '5585987754148'; // <-- EDITE AQUI
+
+    // Nome da sua loja (para a mensagem do WhatsApp)
+    const TRUCK_NAME = "RG Lanches"; // <-- EDITE AQUI
+
+    // URL para uma imagem de placeholder padrão
+    const DEFAULT_IMAGE = 'https://placehold.co/150x150/F59E0B/white?text=Lanche';
+
+    // Lista de produtos. Fácil de editar!
+    // Para adicionar/remover produtos, apenas edite esta lista.
+    // 'category' agrupa os itens.
+    const menuData = [
+        { 
+            id: 1, 
+            name: 'Tapioca (Monte a sua)', 
+            description: 'Escolha seus recheios favoritos.', 
+            price: 3.00, // Preço base da tapioca
+            category: 'Lanches',
+            image: 'https://placehold.co/150x150/F59E0B/white?text=Tapioca',
+            options: [
+                { name: 'Queijo Coalho', price: 5.00 },
+                { name: 'Carne de Sol', price: 7.00 },
+                { name: 'Frango Desfiado', price: 6.00 },
+                { name: 'Ovo', price: 4.00 }
+            ]
+        },
+        { 
+            id: 2, 
+            name: 'Pão (Monte o seu)', 
+            description: 'Escolha seus recheios favoritos.', 
+            price: 2.00, // Preço base do pão
+            category: 'Lanches',
+            image: 'https://placehold.co/150x150/F59E0B/white?text=Pão',
+            options: [
+                { name: 'Queijo Coalho', price: 5.00 },
+                { name: 'Carne de Sol', price: 7.00 },
+                { name: 'Frango Desfiado', price: 6.00 },
+                { name: 'Ovo', price: 4.00 }
+            ]
+        },
+        { 
+            id: 3, 
+            name: 'Café', 
+            description: '100ml.', 
+            price: 1.00, 
+            category: 'Bebidas',
+            image: 'https://placehold.co/150x150/F59E0B/white?text=Café'
+        },
+        { 
+            id: 4, 
+            name: 'Café com Leite', 
+            description: '200ml.', 
+            price: 6.00, 
+            category: 'Bebidas',
+            image: 'https://placehold.co/150x150/F59E0B/white?text=Café com Leite'
+        },
+        { 
+            id: 5, 
+            name: 'Água', 
+            description: '500ml.', 
+            price: 2.00, 
+            category: 'Bebidas',
+            image: 'https://placehold.co/150x150/F59E0B/white?text=Água'
+        }
+    ];
+
+    // ------------------------------------------------------------------
+    // 2. LÓGICA DA APLICAÇÃO - NÃO PRECISA EDITAR
+    // ------------------------------------------------------------------
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const menuContainer = document.getElementById('menu-container');
+        const cartFooter = document.getElementById('cart-footer');
+        const cartCountEl = document.getElementById('cart-count');
+        const openCartBtn = document.getElementById('open-cart-btn');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+        const cartModalContainer = document.getElementById('cart-modal-container');
+        const cartModal = document.getElementById('cart-modal');
+        const cartItemsWrapper = document.getElementById('cart-items');
+        const cartEmptyMsg = document.getElementById('cart-empty-msg');
+        const cartTotalEl = document.getElementById('cart-total');
+        const sendOrderBtn = document.getElementById('send-order-btn');
+        const customerNameInput = document.getElementById('customer-name');
+        // const customerAddressInput = document.getElementById('customer-address'); // Removido
+        const errorMessage = document.getElementById('error-message');
+
+        // Novos elementos do Modal de Opções
+        const optionsModalContainer = document.getElementById('options-modal-container');
+        const optionsModal = document.getElementById('options-modal');
+        const optionsModalCloseBtn = document.getElementById('options-modal-close-btn');
+        const optionsModalItemName = document.getElementById('options-modal-item-name');
+        const optionsModalBasePrice = document.getElementById('options-modal-base-price');
+        const optionsModalList = document.getElementById('options-modal-list');
+        const optionsModalObservation = document.getElementById('options-modal-observation');
+        const optionsModalTotal = document.getElementById('options-modal-total');
+        const optionsModalConfirmBtn = document.getElementById('options-modal-confirm-btn');
+
+        let cart = {}; // { cartItemId: { ...product, quantity: X, ... } }
+        let currentCustomizingProduct = null; // Para guardar o produto sendo customizado
+
+        // --- FUNÇÕES PRINCIPAIS ---
+
+        // Função para formatar valores como moeda (R$)
+        function formatCurrency(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // Função para renderizar o menu
+        function renderMenu() {
+            // Agrupa produtos por categoria
+            const categories = menuData.reduce((acc, product) => {
+                (acc[product.category] = acc[product.category] || []).push(product);
+                return acc;
+            }, {});
+
+            menuContainer.innerHTML = ''; // Limpa o container
+
+            // Itera sobre as categorias e depois sobre os produtos
+            for (const categoryName in categories) {
+                // Cria o título da categoria
+                const categoryTitle = document.createElement('h2');
+                categoryTitle.className = 'text-2xl font-semibold my-4 border-b-2 border-yellow-500 pb-2';
+                categoryTitle.textContent = categoryName;
+                menuContainer.appendChild(categoryTitle);
+                
+                const categoryProductsContainer = document.createElement('div');
+                categoryProductsContainer.className = 'grid grid-cols-1 gap-6';
+
+                categories[categoryName].forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'bg-white rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row';
+                    
+                    const imageUrl = product.image || DEFAULT_IMAGE;
+
+                    productCard.innerHTML = `
+                        <img src="${imageUrl}" alt="${product.name}" class="w-full md:w-1/3 h-48 md:h-auto object-cover" onerror="this.src='${DEFAULT_IMAGE}'">
+                        <div class="p-4 flex flex-col justify-between flex-1">
+                            <div>
+                                <h3 class="text-xl font-bold">${product.name}</h3>
+                                <p class="text-gray-600 text-sm my-2">${product.description}</p>
+                            </div>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-lg font-bold text-green-600">${formatCurrency(product.price)}</span>
+                                <button 
+                                    class="add-to-cart-btn bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-600 transition duration-300"
+                                    data-id="${product.id}"
+                                >
+                                    Adicionar
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    categoryProductsContainer.appendChild(productCard);
+                });
+                menuContainer.appendChild(categoryProductsContainer);
+            }
+        }
+
+        // Função para adicionar ao carrinho (Passo final, após customização se necessário)
+        function addItemToCart(product, selectedOptions = [], observation = "") {
+            const basePrice = product.price;
+            const optionsPrice = selectedOptions.reduce((sum, opt) => sum + opt.price, 0);
+            const finalPrice = basePrice + optionsPrice;
+            
+            // Chave única para o item no carrinho
+            const cartItemId = `${product.id}_${Date.now()}`;
+
+            cart[cartItemId] = {
+                ...product, // Espalha as propriedades do produto (id, name, etc.)
+                cartItemId: cartItemId,
+                quantity: 1,
+                basePrice: basePrice,
+                finalPrice: finalPrice, // Preço final (base + opções)
+                selectedOptions: selectedOptions,
+                observation: observation
+            };
+            
+            showToastMessage(`${product.name} adicionado ao carrinho!`);
+            updateCart();
+        }
+
+        // Função para atualizar o carrinho (Modal e Footer)
+        function updateCart() {
+            let totalItems = 0;
+            let totalPrice = 0;
+
+            if (Object.keys(cart).length === 0) {
+                cartItemsWrapper.innerHTML = '';
+                cartEmptyMsg.classList.remove('hidden');
+                cartFooter.classList.add('translate-y-full'); // Esconde o footer
+            } else {
+                cartEmptyMsg.classList.add('hidden');
+                cartItemsWrapper.innerHTML = ''; // Limpa os itens
+                cartFooter.classList.remove('translate-y-full'); // Mostra o footer
+
+                for (const cartItemId in cart) {
+                    const item = cart[cartItemId];
+
+                    // Total por item (preço final * quantidade)
+                    const itemTotalPrice = item.finalPrice * item.quantity;
+                    totalItems += item.quantity;
+                    totalPrice += itemTotalPrice;
+
+                    const cartItemEl = document.createElement('div');
+                    cartItemEl.className = 'flex flex-col py-3 border-b';
+                    
+                    // Parte 1: Nome, Preço e Botões de Quantidade
+                    cartItemEl.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-bold">${item.name}</p>
+                                <p class="text-sm text-gray-600">${formatCurrency(item.finalPrice)} / un.</p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <button class="change-quantity-btn bg-gray-200 w-7 h-7 rounded-full text-lg font-bold" data-id="${item.cartItemId}" data-change="-1">-</button>
+                                <span class="font-bold w-6 text-center">${item.quantity}</span>
+                                <button class="change-quantity-btn bg-gray-200 w-7 h-7 rounded-full text-lg font-bold" data-id="${item.cartItemId}" data-change="1">+</button>
+                                <button class="remove-item-btn text-red-500 hover:text-red-700" data-id="${item.cartItemId}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Parte 2: Adicionais (se houver)
+                    if (item.selectedOptions && item.selectedOptions.length > 0) {
+                        const optionsEl = document.createElement('div');
+                        optionsEl.className = 'text-xs text-gray-500 mt-1 ml-2';
+                        // Mapeia opções para exibir nome e preço
+                        const optionsText = item.selectedOptions.map(opt => 
+                            `${opt.name} (+${formatCurrency(opt.price)})`
+                        ).join(', ');
+                        optionsEl.textContent = `Adicionais: ${optionsText}`;
+                        cartItemEl.appendChild(optionsEl);
+                    }
+
+                    // Parte 3: Campo de Observação
+                    const observationEl = document.createElement('div');
+                    observationEl.className = 'mt-2';
+                    observationEl.innerHTML = `
+                        <input 
+                            type="text" 
+                            class="cart-item-observation w-full border border-gray-200 p-1 rounded-md text-sm" 
+                            placeholder="Obs: (ex: sem cebola)" 
+                            value="${item.observation}"
+                            data-id="${item.cartItemId}"
+                        >
+                    `;
+                    cartItemEl.appendChild(observationEl);
+
+                    cartItemsWrapper.appendChild(cartItemEl);
+                }
+            }
+
+            cartCountEl.textContent = totalItems;
+            cartTotalEl.textContent = formatCurrency(totalPrice);
+        }
+
+        // Função para alterar quantidade
+        function changeQuantity(cartItemId, change) {
+            if (!cart[cartItemId]) return;
+
+            cart[cartItemId].quantity += change;
+
+            if (cart[cartItemId].quantity <= 0) {
+                delete cart[cartItemId]; // Remove o item
+            }
+
+            updateCart();
+        }
+        
+        // Função para remover item
+        function removeItem(cartItemId) {
+            if (cart[cartItemId]) {
+                delete cart[cartItemId];
+            }
+            updateCart();
+        }
+
+        // Função para abrir/fechar o modal
+        function toggleCartModal(show = true) {
+            if (show) {
+                cartModalContainer.classList.remove('hidden');
+                // Pequeno atraso para permitir a animação de fade-in do backdrop
+                setTimeout(() => {
+                    cartModal.classList.remove('translate-y-full');
+                }, 10);
+            } else {
+                cartModal.classList.add('translate-y-full');
+                // Atraso para a animação de slide-out antes de esconder o container
+                setTimeout(() => {
+                    cartModalContainer.classList.add('hidden');
+                }, 300); // 300ms (duração da transição)
+            }
+        }
+
+        // --- Funções do Modal de Opções ---
+
+        // Abre o modal de opções
+        function openOptionsModal(product) {
+            currentCustomizingProduct = product;
+            
+            optionsModalItemName.textContent = product.name;
+            optionsModalBasePrice.textContent = formatCurrency(product.price);
+            optionsModalObservation.value = '';
+            optionsModalList.innerHTML = '';
+
+            // Renderiza as opções (checkboxes)
+            if (product.options && product.options.length > 0) {
+                product.options.forEach(option => {
+                    const optionEl = document.createElement('div');
+                    optionEl.className = 'flex justify-between items-center p-2 rounded-md hover:bg-gray-100 border';
+                    optionEl.innerHTML = `
+                        <div>
+                            <label for="option-${option.name}" class="font-medium">${option.name}</label>
+                            <p class="text-sm text-gray-500">+ ${formatCurrency(option.price)}</p>
+                        </div>
+                        <input id="option-${option.name}" type="checkbox" class="options-modal-checkbox w-5 h-5 text-yellow-600 rounded focus:ring-yellow-500" data-name="${option.name}" data-price="${option.price}">
+                    `;
+                    optionsModalList.appendChild(optionEl);
+                });
+            } else {
+                 optionsModalList.innerHTML = '<p class="text-gray-500">Este item não possui adicionais.</p>';
+            }
+
+            updateOptionsModalTotal(); // Atualiza o total (para o preço base)
+            optionsModalContainer.classList.remove('hidden');
+        }
+
+        // Fecha o modal de opções
+        function closeOptionsModal() {
+            optionsModalContainer.classList.add('hidden');
+            currentCustomizingProduct = null;
+        }
+
+        // Atualiza o total exibido no modal de opções
+        function updateOptionsModalTotal() {
+            if (!currentCustomizingProduct) return;
+
+            const basePrice = currentCustomizingProduct.price;
+            let optionsPrice = 0;
+
+            const checkboxes = optionsModalList.querySelectorAll('.options-modal-checkbox:checked');
+            checkboxes.forEach(cb => {
+                optionsPrice += parseFloat(cb.getAttribute('data-price'));
+            });
+
+            const total = basePrice + optionsPrice;
+            optionsModalTotal.textContent = formatCurrency(total);
+        }
+
+
+        // Função para gerar a mensagem do WhatsApp
+        function generateWhatsAppMessage() {
+            const customerName = customerNameInput.value.trim();
+            // const customerAddress = customerAddressInput.value.trim(); // Removido
+
+            if (!customerName) { // Verifica apenas o nome
+                errorMessage.textContent = 'Por favor, preencha seu nome.'; // Atualiza mensagem de erro
+                errorMessage.classList.remove('hidden');
+                return null;
+            }
+            errorMessage.classList.add('hidden');
+
+            let message = `*${TRUCK_NAME} - Novo Pedido* 📝\n\n`;
+            message += `*Cliente:* ${customerName}\n\n`; // Remove linha do endereço
+            // message += `*Endereço/Local:* ${customerAddress}\n\n`; // Removido
+            message += '*Itens do Pedido:*\n';
+            message += '------------------------\n';
+
+            let totalPrice = 0;
+            for (const cartItemId in cart) {
+                const item = cart[cartItemId];
+                const itemTotal = item.finalPrice * item.quantity;
+                totalPrice += itemTotal;
+                
+                message += `*${item.quantity}x ${item.name}* - ${formatCurrency(itemTotal)}\n`;
+
+                // Adiciona Adicionais
+                if (item.selectedOptions && item.selectedOptions.length > 0) {
+                    message += `  *Adicionais:*\n`;
+                    item.selectedOptions.forEach(opt => {
+                        message += `    • ${opt.name} (+${formatCurrency(opt.price)})\n`;
+                    });
+                }
+                
+                // Adiciona Observação
+                if (item.observation && item.observation.trim() !== "") {
+                    message += `  *Obs:* ${item.observation.trim()}\n`;
+                }
+                message += '------------------------\n';
+            }
+
+            message += `\n*Total: ${formatCurrency(totalPrice)}*`;
+            
+            return encodeURIComponent(message);
+        }
+        
+        // Função para mostrar um "toast" de notificação
+        function showToastMessage(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-20 left-1/2 -translate-x-1/2 bg-gray-800 text-white py-2 px-6 rounded-lg shadow-lg z-50';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 2000);
+        }
+
+
+        // --- EVENT LISTENERS ---
+
+        // Renderiza o menu ao carregar
+        renderMenu();
+
+        // Listener para adicionar ao carrinho (usando delegação de evento)
+        menuContainer.addEventListener('click', (e) => {
+            const button = e.target.closest('.add-to-cart-btn'); // Pega o botão
+            if (button) {
+                const id = button.getAttribute('data-id');
+                const product = menuData.find(p => p.id == id);
+                if (!product) return;
+
+                // Se tiver opções, abre o modal. Senão, adiciona direto.
+                if (product.options && product.options.length > 0) {
+                    openOptionsModal(product);
+                } else {
+                    addItemToCart(product, [], ""); // Adiciona sem opções e sem obs
+                }
+            }
+        });
+
+        // Listeners do Modal
+        openCartBtn.addEventListener('click', () => toggleCartModal(true));
+        closeCartBtn.addEventListener('click', () => toggleCartModal(false));
+        cartModalContainer.addEventListener('click', (e) => {
+            // Fecha se clicar fora do modal (no backdrop)
+            if (e.target === cartModalContainer) {
+                toggleCartModal(false);
+            }
+        });
+
+        // Listeners de Ações no Carrinho (delegação de evento)
+        cartItemsWrapper.addEventListener('click', (e) => {
+            const target = e.target.closest('button');
+            if (!target) return;
+
+            const id = target.getAttribute('data-id');
+            
+            if (target.classList.contains('change-quantity-btn')) {
+                const change = parseInt(target.getAttribute('data-change'));
+                changeQuantity(id, change);
+            }
+            
+            if (target.classList.contains('remove-item-btn')) {
+                removeItem(id);
+            }
+        });
+        
+        // NOVO: Listener para salvar observações do carrinho
+        cartItemsWrapper.addEventListener('input', (e) => {
+            if (e.target.classList.contains('cart-item-observation')) {
+                const cartItemId = e.target.getAttribute('data-id');
+                if (cart[cartItemId]) {
+                    cart[cartItemId].observation = e.target.value;
+                    // Não precisa de updateCart() aqui, pois não afeta o total
+                }
+            }
+        });
+
+        // NOVO: Listeners do Modal de Opções
+        optionsModalCloseBtn.addEventListener('click', closeOptionsModal);
+        optionsModalContainer.addEventListener('click', (e) => {
+            if (e.target === optionsModalContainer) {
+                closeOptionsModal();
+            }
+        });
+        
+        // NOVO: Listener para atualizar total no modal de opções
+        optionsModalList.addEventListener('change', (e) => {
+            if (e.target.classList.contains('options-modal-checkbox')) {
+                updateOptionsModalTotal();
+            }
+        });
+
+        // NOVO: Listener para confirmar adição do item customizado
+        optionsModalConfirmBtn.addEventListener('click', () => {
+            if (!currentCustomizingProduct) return;
+
+            const selectedOptions = [];
+            const checkboxes = optionsModalList.querySelectorAll('.options-modal-checkbox:checked');
+            checkboxes.forEach(cb => {
+                selectedOptions.push({
+                    name: cb.getAttribute('data-name'),
+                    price: parseFloat(cb.getAttribute('data-price'))
+                });
+            });
+
+            const observation = optionsModalObservation.value.trim();
+            
+            addItemToCart(currentCustomizingProduct, selectedOptions, observation);
+            closeOptionsModal();
+        });
+
+        // Listener para Enviar Pedido
+        sendOrderBtn.addEventListener('click', () => {
+            const message = generateWhatsAppMessage();
+            if (message) {
+                // Limpa o carrinho
+                cart = {};
+                updateCart();
+                toggleCartModal(false);
+                customerNameInput.value = '';
+                // customerAddressInput.value = ''; // Removido
+                
+                // Abre o WhatsApp
+                const whatsappUrl = `https://wa.me/${TRUCK_PHONE_NUMBER}?text=${message}`;
+                window.open(whatsappUrl, '_blank');
+            }
+        });
+    });
+    </script>
+
+</body>
+</html>
