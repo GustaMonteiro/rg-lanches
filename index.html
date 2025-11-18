@@ -169,57 +169,111 @@
     // 'category' agrupa os itens.
     const menuData = [
         { 
-            id: 1, 
-            name: 'Tapioca (Monte a sua)', 
-            description: 'Escolha seus recheios favoritos.', 
+            id: 1,
+            name: 'Tapioca (Monte a sua)',
+            description: 'Escolha seus recheios favoritos.',
             price: 3.00, // Preço base da tapioca
             category: 'Lanches',
-            image: 'https://placehold.co/150x150/F59E0B/white?text=Tapioca',
+            image: 'https://static.wixstatic.com/media/a85c73_8e4f04aa2906481bb6945e4660aeb9bf~mv2.jpg/v1/fill/w_618,h_450,fp_0.50_0.41,q_80,enc_avif,quality_auto/capa-tapioca-tradicional.jpg',
+            // image: 'https://placehold.co/150x150/F59E0B/white?text=Tapioca',
             options: [
-                { name: 'Queijo Coalho', price: 5.00 },
+                { name: 'Ovo', price: 4.00 },
+                { name: 'Queijo', price: 5.00 },
+                { name: 'Mista', price: 5.00 },
+                { name: 'Calabresa', price: 5.00 },
+                { name: 'Carne Moida', price: 6.00 },
+                { name: 'Frango', price: 6.00 },
                 { name: 'Carne de Sol', price: 7.00 },
-                { name: 'Frango Desfiado', price: 6.00 },
-                { name: 'Ovo', price: 4.00 }
             ]
         },
         { 
-            id: 2, 
-            name: 'Pão (Monte o seu)', 
-            description: 'Escolha seus recheios favoritos.', 
+            id: 2,
+            name: 'Pão (Monte o seu)',
+            description: 'Escolha seus recheios favoritos.',
             price: 2.00, // Preço base do pão
             category: 'Lanches',
-            image: 'https://placehold.co/150x150/F59E0B/white?text=Pão',
+            image: 'https://guiadacozinha.com.br/wp-content/uploads/2022/03/receita-de-buraco-quente-misto.jpg',
+            // image: 'https://placehold.co/150x150/F59E0B/white?text=Pão',
             options: [
-                { name: 'Queijo Coalho', price: 5.00 },
+                { name: 'Ovo', price: 4.00 },
+                { name: 'Queijo', price: 5.00 },
+                { name: 'Misto', price: 5.00 },
+                { name: 'Carne Moida', price: 6.00 },
+                { name: 'Frango', price: 6.00 },
                 { name: 'Carne de Sol', price: 7.00 },
-                { name: 'Frango Desfiado', price: 6.00 },
-                { name: 'Ovo', price: 4.00 }
             ]
         },
         { 
-            id: 3, 
-            name: 'Café', 
-            description: '100ml.', 
-            price: 1.00, 
-            category: 'Bebidas',
-            image: 'https://placehold.co/150x150/F59E0B/white?text=Café'
+            id: 3,
+            name: 'Cuscuz (Monte o seu)',
+            description: 'Escolha seus recheios favoritos.',
+            price: 5.00, // Preço base do cuscuz
+            category: 'Lanches',
+            image: 'https://www.seara.com.br/wp-content/uploads/2025/09/cuscuz-nordestino-portal-minha-receita.webp',
+            // image: 'https://placehold.co/150x150/F59E0B/white?text=Cuscuz',
+            options: [
+                { name: 'Ovo', price: 4.00 },
+                { name: 'Queijo', price: 5.00 },
+                { name: 'Misto', price: 5.00 },
+                { name: 'Carne Moida', price: 6.00 },
+                { name: 'Frango', price: 6.00 },
+                { name: 'Carne de Sol', price: 7.00 },
+            ]
         },
-        { 
-            id: 4, 
-            name: 'Café com Leite', 
-            description: '200ml.', 
-            price: 6.00, 
-            category: 'Bebidas',
-            image: 'https://placehold.co/150x150/F59E0B/white?text=Café com Leite'
+        {
+            id: 4,
+            name: 'Gostosinho',
+            description: 'Cuscuz, carne moída, ovo e cheiro verde.',
+            price: 14.00,
+            category: 'Pratos',
+            image: 'https://www.melhoresdestinos.com.br/wp-content/uploads/2020/12/comidas-tipicas-brasil-acre.jpg',
+            // image: 'https://placehold.co/150x150/F59E0B/white?text=Gostosinho',
         },
-        { 
-            id: 5, 
-            name: 'Água', 
-            description: '500ml.', 
-            price: 2.00, 
+        {
+            id: 5,
+            name: 'Café',
+            description: '100ml.',
+            price: 1.00,
             category: 'Bebidas',
-            image: 'https://placehold.co/150x150/F59E0B/white?text=Água'
-        }
+            image: 'https://upload.wikimedia.org/wikipedia/commons/4/45/A_small_cup_of_coffee.JPG',
+            // image: 'https://placehold.co/150x150/F59E0B/white?text=Café',
+        },
+        {
+            id: 6,
+            name: 'Café com Leite',
+            description: '200ml.',
+            price: 4.00,
+            category: 'Bebidas',
+            image: 'https://d24am.com/wp-content/uploads/2023/01/Cafe-com-leite-pode-ser-um-aliado-no-combate-a-inflamacoes-sugere-estudo-d24am.jpeg',
+            // image: 'https://placehold.co/150x150/F59E0B/white?text=Café%20com%20Leite',
+        },
+        {
+            id: 7,
+            name: 'Suco',
+            description: '500ml.',
+            price: 4.00,
+            category: 'Bebidas',
+            image: 'https://www.citrosuco.com.br/wp-content/uploads/2022/02/THUMB-05.png',
+            // image: 'https://placehold.co/150x150/F59E0B/white?text=Suco',
+        },
+        {
+            id: 8,
+            name: 'Refrigerante Lata',
+            description: '350ml.',
+            price: 5.00,
+            category: 'Bebidas',
+            image: 'https://cardapio.nomadasushi.com.br/wp-content/uploads/2024/08/Design-sem-nome-768x768.png',
+            // image: 'https://placehold.co/150x150/F59E0B/white?text=Refrigerante%20Lata',
+        },
+        {
+            id: 9,
+            name: 'Água',
+            description: '500ml.',
+            price: 2.00,
+            category: 'Bebidas',
+            image: 'https://d21wiczbqxib04.cloudfront.net/-hs8jHph7IKTH4K3sEfxsm6QGCU=/fit-in/453x453/filters:fill(FFFFFF):background_color(white)/https://osuper-product-vault.s3.sa-east-1.amazonaws.com/934f78e66b9c78d0e284128058dc1de65f32fb04/360/7835-d556d125.webp',
+            // image: 'https://placehold.co/150x150/F59E0B/white?text=Água',
+        },
     ];
 
     // ------------------------------------------------------------------
