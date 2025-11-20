@@ -156,7 +156,7 @@
 
     // Coloque aqui o número de WhatsApp do seu carrinho (somente números, com código do país)
     // Exemplo: 5585912345678 (para +55 85 91234-5678)
-    const TRUCK_PHONE_NUMBER = '5585987754148'; // <-- EDITE AQUI
+    const TRUCK_PHONE_NUMBER = '5585996184974'; // <-- EDITE AQUI
 
     // Nome da sua loja (para a mensagem do WhatsApp)
     const TRUCK_NAME = "RG Lanches"; // <-- EDITE AQUI
@@ -177,13 +177,16 @@
             image: 'https://static.wixstatic.com/media/a85c73_8e4f04aa2906481bb6945e4660aeb9bf~mv2.jpg/v1/fill/w_618,h_450,fp_0.50_0.41,q_80,enc_avif,quality_auto/capa-tapioca-tradicional.jpg',
             // image: 'https://placehold.co/150x150/F59E0B/white?text=Tapioca',
             options: [
-                { name: 'Ovo', price: 4.00 },
-                { name: 'Queijo', price: 5.00 },
-                { name: 'Mista', price: 5.00 },
-                { name: 'Calabresa', price: 5.00 },
-                { name: 'Carne Moida', price: 6.00 },
-                { name: 'Frango', price: 6.00 },
-                { name: 'Carne de Sol', price: 7.00 },
+                { name: 'Manteiga', price: 1.00 }, // 4.00 com manteiga
+                { name: 'Requeijão', price: 1.00 }, // 4.00 com requeijão
+                { name: 'Nata', price: 1.00 }, // 4.00 com nata
+                { name: 'Ovo', price: 4.00 }, // 7.00 com ovo
+                { name: 'Queijo', price: 5.00 }, // 8.00 com queijo
+                { name: 'Mista', price: 6.00 }, // 9.00 com mista
+                { name: 'Calabresa', price: 6.00 }, // 9.00 com calabresa
+                { name: 'Carne Moida', price: 7.00 }, // 10.00 com carne moida
+                { name: 'Frango', price: 7.00 }, // 10.00 com frango
+                { name: 'Carne de Sol', price: 8.00 }, // 11.00 com carne de sol
             ]
         },
         { 
@@ -195,69 +198,111 @@
             image: 'https://guiadacozinha.com.br/wp-content/uploads/2022/03/receita-de-buraco-quente-misto.jpg',
             // image: 'https://placehold.co/150x150/F59E0B/white?text=Pão',
             options: [
-                { name: 'Ovo', price: 4.00 },
-                { name: 'Queijo', price: 5.00 },
-                { name: 'Misto', price: 5.00 },
-                { name: 'Carne Moida', price: 6.00 },
-                { name: 'Frango', price: 6.00 },
-                { name: 'Carne de Sol', price: 7.00 },
+                { name: 'Manteiga', price: 1.00 }, // 3.00 com manteiga
+                { name: 'Requeijão', price: 1.00 }, // 3.00 com requeijão
+                { name: 'Nata', price: 1.00 }, // 3.00 com nata
+                { name: 'Ovo', price: 4.00 }, // 6.00 com ovo
+                { name: 'Queijo', price: 4.00 }, // 6.00 com queijo
+                { name: 'Mista', price: 5.00 }, // 7.00 com mista
+                { name: 'Calabresa', price: 5.00 }, // 7.00 com calabresa
+                { name: 'Carne Moida', price: 6.00 }, // 8.00 com carne moida
+                { name: 'Frango', price: 6.00 }, // 8.00 com frango
+                { name: 'Carne de Sol', price: 7.00 }, // 9.00 com carne de sol
             ]
         },
-        { 
+        {
             id: 3,
             name: 'Cuscuz (Monte o seu)',
             description: 'Escolha seus recheios favoritos.',
-            price: 5.00, // Preço base do cuscuz
+            price: 3.00, // Preço base do cuscuz
             category: 'Lanches',
             image: 'https://www.seara.com.br/wp-content/uploads/2025/09/cuscuz-nordestino-portal-minha-receita.webp',
             // image: 'https://placehold.co/150x150/F59E0B/white?text=Cuscuz',
             options: [
-                { name: 'Ovo', price: 4.00 },
-                { name: 'Queijo', price: 5.00 },
-                { name: 'Misto', price: 5.00 },
-                { name: 'Carne Moida', price: 6.00 },
-                { name: 'Frango', price: 6.00 },
-                { name: 'Carne de Sol', price: 7.00 },
+                { name: 'Manteiga', price: 1.00 }, // 4.00 com manteiga
+                { name: 'Requeijão', price: 1.00 }, // 4.00 com requeijão
+                { name: 'Nata', price: 1.00 }, // 4.00 com nata
+                { name: 'Ovo', price: 4.00 }, // 7.00 com ovo
+                { name: 'Queijo', price: 4.00 }, // 7.00 com queijo
+                { name: 'Misto', price: 5.00 }, // 8.00 com misto
+                { name: 'Calabresa', price: 5.00 }, // 8.00 com calabresa
+                { name: 'Carne Moida', price: 6.00 }, // 9.00 com carne moida
+                { name: 'Frango', price: 6.00 }, // 9.00 com frango
+                { name: 'Carne de Sol', price: 7.00 }, // 10.00 com carne de sol
             ]
         },
         {
             id: 4,
+            name: 'Bolo mole',
+            description: 'Fatia.',
+            price: 5.00,
+            category: 'Lanches',
+            image: 'https://imgs.search.brave.com/y9zOJD2DVLdbS5JMbOdKGzUxixqkHed26BVzKq8MIHM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zMi1y/ZWNlaXRhcy5nbGJp/bWcuY29tL01mYnBt/bWFFcGN2YmxFSGpV/c25XZHpsZ2ZNZz0v/MHgwOjQ1N3gyNzYv/ODEweDAvc21hcnQv/ZmlsdGVyczpzdHJp/cF9pY2MoKS9zLmds/YmltZy5jb20vcG8v/cmMvbWVkaWEvMjAx/NC8wOS8xNC8yMF80/Nl8wMF82MTVfQk9M/T19NT0xFX0NPTV9D/T0NPLmpwZw',
+        },
+        {
+            id: 5,
+            name: 'Salgados variados',
+            description: 'Unidade.',
+            price: 5.00,
+            category: 'Lanches',
+            image: 'https://imgs.search.brave.com/wqyk-tGFYAgZOi9hqNd8aCKtv8sa58ozDWd_jsHHCdM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/Zm90b3MtcHJlbWl1/bS9jb3hpbmhhLWRl/LWZyYW5nby1nYWxp/bmhhLWZyYW5nby1j/b21pZGEtYnJhc2ls/ZWlyYS1mcml0YV85/NjAzOTYtNTE1MDM3/LmpwZz9zZW10PWFp/c19oeWJyaWQmdz03/NDAmcT04MA',
+        },
+        {
+            id: 6,
             name: 'Gostosinho',
-            description: 'Cuscuz, carne moída, ovo e cheiro verde.',
+            description: 'Arroz, cuscuz, carne moída, ovo e cheiro verde.',
             price: 14.00,
             category: 'Pratos',
             image: 'https://www.melhoresdestinos.com.br/wp-content/uploads/2020/12/comidas-tipicas-brasil-acre.jpg',
             // image: 'https://placehold.co/150x150/F59E0B/white?text=Gostosinho',
         },
         {
-            id: 5,
+            id: 7,
+            name: 'Caldo de Carne Moída',
+            description: 'Carne moída e legumes. 300ml.',
+            price: 6.00,
+            category: 'Pratos',
+            //image: 'https://www.melhoresdestinos.com.br/wp-content/uploads/2020/12/comidas-tipicas-brasil-acre.jpg',
+            image: 'https://placehold.co/150x150/F59E0B/white?text=Caldo%20de%20Carne%20Moída',
+        },
+        {
+            id: 8,
             name: 'Café',
             description: '100ml.',
-            price: 1.00,
+            price: 2.00,
             category: 'Bebidas',
             image: 'https://upload.wikimedia.org/wikipedia/commons/4/45/A_small_cup_of_coffee.JPG',
             // image: 'https://placehold.co/150x150/F59E0B/white?text=Café',
         },
         {
-            id: 6,
+            id: 9,
             name: 'Café com Leite',
-            description: '200ml.',
+            description: '180ml.',
             price: 4.00,
             category: 'Bebidas',
             image: 'https://d24am.com/wp-content/uploads/2023/01/Cafe-com-leite-pode-ser-um-aliado-no-combate-a-inflamacoes-sugere-estudo-d24am.jpeg',
             // image: 'https://placehold.co/150x150/F59E0B/white?text=Café%20com%20Leite',
         },
         {
-            id: 7,
+            id: 10,
             name: 'Suco',
-            description: '500ml.',
+            description: '250ml.',
             price: 4.00,
             category: 'Bebidas',
             image: 'https://www.citrosuco.com.br/wp-content/uploads/2022/02/THUMB-05.png',
             // image: 'https://placehold.co/150x150/F59E0B/white?text=Suco',
         },
         {
-            id: 8,
+            id: 11,
+            name: 'Refrigerante Pitchulinha',
+            description: '250ml.',
+            price: 4.00,
+            category: 'Bebidas',
+            image: 'https://imgs.search.brave.com/YZl50iwGGAq8iTSddEy6w11aT9Vc6tOGFtg3QIar9BI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kbHB2/aW5ob3MuYWdpbGVj/ZG4uY29tLmJyLzAw/NzQ0MV8xLmpwZz92/PTE2Ny0zMTY5MTk4/OTg',
+            // image: 'https://placehold.co/150x150/F59E0B/white?text=Refrigerante%20Lata',
+        },
+        {
+            id: 12,
             name: 'Refrigerante Lata',
             description: '350ml.',
             price: 5.00,
@@ -266,12 +311,21 @@
             // image: 'https://placehold.co/150x150/F59E0B/white?text=Refrigerante%20Lata',
         },
         {
-            id: 9,
+            id: 13,
             name: 'Água',
             description: '500ml.',
             price: 2.00,
             category: 'Bebidas',
             image: 'https://d21wiczbqxib04.cloudfront.net/-hs8jHph7IKTH4K3sEfxsm6QGCU=/fit-in/453x453/filters:fill(FFFFFF):background_color(white)/https://osuper-product-vault.s3.sa-east-1.amazonaws.com/934f78e66b9c78d0e284128058dc1de65f32fb04/360/7835-d556d125.webp',
+            // image: 'https://placehold.co/150x150/F59E0B/white?text=Água',
+        },
+        {
+            id: 14,
+            name: 'Água com Gás',
+            description: '500ml.',
+            price: 3.00,
+            category: 'Bebidas',
+            image: 'https://imgs.search.brave.com/IbfAqaMT2jm1tj8L_ex23xCEcK4MCoLQEwm54K-39s4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pYmFz/c2V0cy5jb20uYnIv/aWIuaXRlbS5pbWFn/ZS5tZWRpdW0vbS0z/NGVmMTA2YjljNjM0/MjU2ODNkYTNhYjVk/ZjAwNzkwYy5qcGVn',
             // image: 'https://placehold.co/150x150/F59E0B/white?text=Água',
         },
     ];
